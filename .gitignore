@@ -1,0 +1,7 @@
+.idea/**
+.gradle/**
+itemfilter-common/**
+itemfilter-spigot/build/**
+itemfilter-spigot/out/**
+itemfilter-sponge/build/**
+itemfilter-sponge/out/**

@@ -1,0 +1,3 @@
+rootProject.name = 'itemfilter'
+
+include 'itemfilter-common', 'itemfilter-spigot', 'itemfilter-sponge'
