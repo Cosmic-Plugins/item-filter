@@ -106,7 +106,18 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
         }
 
         if(!otherdata.getBoolean("saved default filter categories")) {
-            generateDefaultFilterCategories();
+            final String[] defaultCategories = new String[] {
+                    "EQUIPMENT",
+                    "FOOD",
+                    "ORES",
+                    "OTHER",
+                    "POTION_SUPPLIES",
+                    "RAIDING",
+                    "SPECIALTY",
+            };
+            for(String s : defaultCategories) {
+                save("filter categories", s + ".yml");
+            }
             otherdata.set("saved default filter categories", true);
             saveOtherData();
         }
@@ -124,7 +135,7 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
             isEnabled = false;
             HandlerList.unregisterAll(this);
         }
-        unregister(Feature.FILTER_CATEGORY);
+        FILTER_CATEGORIES.clear();
     }
 
     public void viewHelp(@NotNull CommandSender sender) {
@@ -157,7 +168,7 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
     }
     public void toggleFilter(@NotNull Player player) {
         if(player.hasPermission("ItemFilter.toggle")) {
-            final SPlayer pdata = SPlayer.get(player.getUniqueId());
+            final IFPlayer pdata = IFPlayer.get(player.getUniqueId());
             final boolean status = !pdata.hasActiveFilter();
             pdata.setActiveFilter(status);
             sendStringListMessage(player, getStringList(ITEM_FILTER_CONFIG, "messages." + (status ? "en" : "dis") + "able"), null);
@@ -166,7 +177,7 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
     public void viewCategory(@NotNull Player player, @NotNull FilterCategory category) {
         if(player.hasPermission("ItemFilter.edit")) {
             player.closeInventory();
-            final List<UMaterial> filtered = SPlayer.get(player.getUniqueId()).getFilteredItems();
+            final List<UMaterial> filtered = IFPlayer.get(player.getUniqueId()).getFilteredItems();
             final UInventory target = category.getInventory();
             final int size = target.getSize();
             player.openInventory(Bukkit.createInventory(player, size, target.getTitle()));
@@ -198,7 +209,7 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
             }
 
             if(category != null) {
-                final List<UMaterial> filtered = SPlayer.get(player.getUniqueId()).getFilteredItems();
+                final List<UMaterial> filtered = IFPlayer.get(player.getUniqueId()).getFilteredItems();
                 final UMaterial target = UMaterial.match(current);
                 if(filtered.contains(target)) {
                     filtered.remove(target);
@@ -218,7 +229,7 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
     }
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     private void playerPickupItemEvent(PlayerPickupItemEvent event) {
-        final SPlayer pdata = SPlayer.get(event.getPlayer().getUniqueId());
+        final IFPlayer pdata = IFPlayer.get(event.getPlayer().getUniqueId());
         if(pdata.hasActiveFilter() && !pdata.getFilteredItems().contains(UMaterial.match(event.getItem().getItemStack()))) {
             event.setCancelled(true);
         }
@@ -233,10 +244,10 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
     }
     @EventHandler
     private void playerJoinEvent(PlayerJoinEvent event) {
-        SPlayer.get(event.getPlayer().getUniqueId());
+        IFPlayer.get(event.getPlayer().getUniqueId());
     }
     @EventHandler
     private void playerQuitEvent(PlayerQuitEvent event) {
-        SPlayer.get(event.getPlayer().getUniqueId()).unload();
+        IFPlayer.get(event.getPlayer().getUniqueId()).unload();
     }
 }

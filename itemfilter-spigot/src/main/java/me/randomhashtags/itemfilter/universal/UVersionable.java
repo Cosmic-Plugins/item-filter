@@ -2,6 +2,7 @@ package me.randomhashtags.itemfilter.universal;
 
 import com.sun.istack.internal.NotNull;
 import me.randomhashtags.itemfilter.ItemFilterSpigot;
+import me.randomhashtags.itemfilter.addon.FilterCategory;
 import me.randomhashtags.itemfilter.util.Versionable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.util.*;
 
 public interface UVersionable extends Versionable {
+    HashMap<String, FilterCategory> FILTER_CATEGORIES = new HashMap<>();
     File DATA_FOLDER = ItemFilterSpigot.getPlugin.getDataFolder();
     String SEPARATOR = File.separator;
 
@@ -35,6 +37,14 @@ public interface UVersionable extends Versionable {
     ConsoleCommandSender CONSOLE = Bukkit.getConsoleSender();
 
     HashMap<FileConfiguration, HashMap<String, List<String>>> FEATURE_MESSAGES = new HashMap<>();
+    HashMap<FileConfiguration, HashMap<String, String>> FEATURE_STRINGS = new HashMap<>();
+
+    default void registerFilterCategory(@NotNull FilterCategory category) {
+        FILTER_CATEGORIES.put(category.getIdentifier(), category);
+    }
+    default FilterCategory getFilterCategory(@NotNull String categoryIdentifier) {
+        return FILTER_CATEGORIES.getOrDefault(categoryIdentifier, null);
+    }
 
     default List<String> getStringList(FileConfiguration yml, String identifier) {
         if(!FEATURE_MESSAGES.containsKey(yml)) {
@@ -46,6 +56,17 @@ public interface UVersionable extends Versionable {
         }
         return messages.get(identifier);
     }
+    default String getString(FileConfiguration yml, String identifier) {
+        if(!FEATURE_STRINGS.containsKey(yml)) {
+            FEATURE_STRINGS.put(yml, new HashMap<>());
+        }
+        final HashMap<String, String> strings = FEATURE_STRINGS.get(yml);
+        if(!strings.containsKey(identifier)) {
+            strings.put(identifier, colorize(yml.getString(identifier)));
+        }
+        return strings.get(identifier);
+    }
+
 
     default void save(String folder, String file) {
         final boolean hasFolder = folder != null && !folder.equals("");

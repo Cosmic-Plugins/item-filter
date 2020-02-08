@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public final class SPlayer implements UVersionable {
+public final class IFPlayer implements UVersionable {
     private static final String PLAYER_DATA_FOLDER = ITEM_FILTER.getDataFolder() + File.separator + "playerData";
-    public static final HashMap<UUID, SPlayer> CACHED_PLAYERS = new HashMap<>();
+    public static final HashMap<UUID, IFPlayer> CACHED_PLAYERS = new HashMap<>();
 
     private boolean isLoaded;
     private UUID uuid;
@@ -25,14 +25,14 @@ public final class SPlayer implements UVersionable {
     private boolean filter;
     private List<UMaterial> filteredItems;
 
-    public SPlayer(UUID uuid) {
+    public IFPlayer(UUID uuid) {
         this.uuid = uuid;
         final File f = new File(PLAYER_DATA_FOLDER, uuid.toString() + ".yml");
         boolean backup = false;
         if(!CACHED_PLAYERS.containsKey(uuid)) {
             if(!f.exists()) {
                 try {
-                    final File folder = new File(SPlayer.PLAYER_DATA_FOLDER);
+                    final File folder = new File(IFPlayer.PLAYER_DATA_FOLDER);
                     if(!folder.exists()) {
                         folder.mkdirs();
                     }
@@ -52,8 +52,8 @@ public final class SPlayer implements UVersionable {
         }
     }
 
-    public static SPlayer get(UUID player) {
-        return CACHED_PLAYERS.getOrDefault(player, new SPlayer(player));
+    public static IFPlayer get(UUID player) {
+        return CACHED_PLAYERS.getOrDefault(player, new IFPlayer(player));
     }
 
     public void load() {
@@ -114,5 +114,4 @@ public final class SPlayer implements UVersionable {
         }
         return f;
     }
-
 }

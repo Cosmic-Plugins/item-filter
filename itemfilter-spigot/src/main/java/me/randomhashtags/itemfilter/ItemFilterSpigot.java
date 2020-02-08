@@ -1,10 +1,12 @@
 package me.randomhashtags.itemfilter;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ItemFilterSpigot extends JavaPlugin {
 
     public static ItemFilterSpigot getPlugin;
+    public boolean placeholderapi;
 
     @Override
     public void onEnable() {
@@ -25,9 +27,11 @@ public final class ItemFilterSpigot extends JavaPlugin {
 
     public void enable() {
         saveSettings();
+        placeholderapi = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
         ItemFilterAPI.INSTANCE.load();
     }
     public void disable() {
+        placeholderapi = false;
         ItemFilterAPI.INSTANCE.unload();
     }
 

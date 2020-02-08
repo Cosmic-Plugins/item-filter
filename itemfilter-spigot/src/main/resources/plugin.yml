@@ -4,3 +4,5 @@ main: me.randomhashtags.itemfilter.ItemFilterSpigot
 api-version: 1.13
 authors: [RandomHashTags]
 description: Allows players to limit what items they wantt and don't want to pick up off the ground.
+softdepend:
+  - PlaceholderAPI
