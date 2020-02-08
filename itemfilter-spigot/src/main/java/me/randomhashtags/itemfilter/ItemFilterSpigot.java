@@ -9,6 +9,7 @@ public final class ItemFilterSpigot extends JavaPlugin {
     @Override
     public void onEnable() {
         getPlugin = this;
+        saveSettings();
         getCommand("filter").setExecutor(ItemFilterAPI.INSTANCE);
         enable();
     }
@@ -18,8 +19,12 @@ public final class ItemFilterSpigot extends JavaPlugin {
         disable();
     }
 
-    public void enable() {
+    private void saveSettings() {
         saveDefaultConfig();
+    }
+
+    public void enable() {
+        saveSettings();
         ItemFilterAPI.INSTANCE.load();
     }
     public void disable() {
