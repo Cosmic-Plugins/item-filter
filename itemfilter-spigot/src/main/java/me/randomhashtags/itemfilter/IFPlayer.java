@@ -57,16 +57,19 @@ public final class IFPlayer implements UVersionable {
     }
 
     public void load() {
-        filter = yml.getBoolean("filter enabled");
+        if(!isLoaded) {
+            isLoaded = true;
+            filter = yml.getBoolean("filter enabled");
+        }
     }
     public void unload() {
         if(isLoaded) {
+            isLoaded = false;
             try {
                 backup();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            isLoaded = false;
             CACHED_PLAYERS.remove(uuid);
         }
     }

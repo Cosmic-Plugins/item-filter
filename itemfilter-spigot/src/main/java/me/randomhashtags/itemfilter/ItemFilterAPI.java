@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,6 +39,9 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
 
     private boolean isEnabled;
 
+    private File otherdataF;
+    private YamlConfiguration otherdata;
+
     private ItemStack item;
     private ItemMeta itemMeta;
     private List<String> lore;
@@ -49,7 +53,9 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
     private HashMap<String, FileFilterCategory> categories, categoryTitles;
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if(!(sender instanceof Player)) return true;
+        if(!(sender instanceof Player)) {
+            return true;
+        }
         final Player player = (Player) sender;
         final int l = args.length;
         if(l == 0) {
@@ -105,6 +111,9 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
             categorySlots.put(slot, opens);
         }
 
+        save(null, "_data.yml");
+        otherdataF = new File(DATA_FOLDER, "_data.yml");
+        otherdata = YamlConfiguration.loadConfiguration(otherdataF);
         if(!otherdata.getBoolean("saved default filter categories")) {
             final String[] defaultCategories = new String[] {
                     "EQUIPMENT",
@@ -134,8 +143,17 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
         if(isEnabled) {
             isEnabled = false;
             HandlerList.unregisterAll(this);
+            FILTER_CATEGORIES.clear();
         }
-        FILTER_CATEGORIES.clear();
+    }
+
+    private void saveOtherData() {
+        try {
+            otherdata.save(otherdataF);
+            otherdata = YamlConfiguration.loadConfiguration(otherdataF);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void viewHelp(@NotNull CommandSender sender) {

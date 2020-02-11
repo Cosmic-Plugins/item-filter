@@ -6,3 +6,6 @@ authors: [RandomHashTags]
 description: Allows players to limit what items they wantt and don't want to pick up off the ground.
 softdepend:
   - PlaceholderAPI
+commands:
+  filter:
+    permission: "ItemFilter.command"

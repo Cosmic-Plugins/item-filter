@@ -103,7 +103,7 @@ public interface UVersionable extends Versionable {
         CONSOLE.sendMessage(colorize(msg));
     }
     default void sendConsoleDidLoadFeature(String what, long started) {
-        sendConsoleMessage("&6[RandomPackage] &aLoaded " + what + " &e(took " + (System.currentTimeMillis()-started) + "ms)");
+        sendConsoleMessage("&6[Item Filter] &aLoaded " + what + " &e(took " + (System.currentTimeMillis()-started) + "ms)");
     }
 
     default int getRemainingInt(String string) {
