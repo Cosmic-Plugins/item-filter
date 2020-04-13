@@ -1,6 +1,5 @@
 package me.randomhashtags.itemfilter;
 
-import com.sun.istack.internal.NotNull;
 import me.randomhashtags.itemfilter.universal.UVersionable;
 import me.randomhashtags.itemfilter.addon.FilterCategory;
 import me.randomhashtags.itemfilter.addon.FileFilterCategory;
@@ -156,12 +155,12 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
         }
     }
 
-    public void viewHelp(@NotNull CommandSender sender) {
+    public void viewHelp(CommandSender sender) {
         if(sender.hasPermission("ItemFilter.command")) {
             sendStringListMessage(sender, getStringList(ITEM_FILTER_CONFIG, "messages.help"), null);
         }
     }
-    public void viewCategories(@NotNull Player player) {
+    public void viewCategories(Player player) {
         if(player.hasPermission("ItemFilter.edit")) {
             player.closeInventory();
             player.openInventory(Bukkit.createInventory(player, gui.getSize(), gui.getTitle()));
@@ -184,7 +183,7 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
         }
         return is;
     }
-    public void toggleFilter(@NotNull Player player) {
+    public void toggleFilter(Player player) {
         if(player.hasPermission("ItemFilter.toggle")) {
             final IFPlayer pdata = IFPlayer.get(player.getUniqueId());
             final boolean status = !pdata.hasActiveFilter();
@@ -192,7 +191,7 @@ public enum ItemFilterAPI implements CommandExecutor, Listener, UVersionable {
             sendStringListMessage(player, getStringList(ITEM_FILTER_CONFIG, "messages." + (status ? "en" : "dis") + "able"), null);
         }
     }
-    public void viewCategory(@NotNull Player player, @NotNull FilterCategory category) {
+    public void viewCategory(Player player, FilterCategory category) {
         if(player.hasPermission("ItemFilter.edit")) {
             player.closeInventory();
             final List<UMaterial> filtered = IFPlayer.get(player.getUniqueId()).getFilteredItems();

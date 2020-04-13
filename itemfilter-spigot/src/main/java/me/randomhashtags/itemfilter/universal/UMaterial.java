@@ -1,6 +1,5 @@
 package me.randomhashtags.itemfilter.universal;
 
-import com.sun.istack.internal.NotNull;
 import me.randomhashtags.itemfilter.util.Versionable;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -1687,7 +1686,7 @@ public enum UMaterial implements Versionable {
         }
         return t != null ? t : match(m, d);
     }
-    public static UMaterial match(@NotNull String name) {
+    public static UMaterial match(  String name) {
         name = name.toUpperCase();
         try {
             final UMaterial material = valueOf(name);

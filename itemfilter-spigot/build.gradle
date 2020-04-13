@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     compile project(':itemfilter-common')
+    compile 'org.jetbrains:annotations:16.0.2'
     compileOnly 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
 
     implementation 'me.clip:placeholderapi:2.10.3'

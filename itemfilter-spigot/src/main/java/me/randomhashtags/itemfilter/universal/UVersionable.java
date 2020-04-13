@@ -1,6 +1,5 @@
 package me.randomhashtags.itemfilter.universal;
 
-import com.sun.istack.internal.NotNull;
 import me.randomhashtags.itemfilter.ItemFilterSpigot;
 import me.randomhashtags.itemfilter.addon.FilterCategory;
 import me.randomhashtags.itemfilter.util.Versionable;
@@ -39,10 +38,10 @@ public interface UVersionable extends Versionable {
     HashMap<FileConfiguration, HashMap<String, List<String>>> FEATURE_MESSAGES = new HashMap<>();
     HashMap<FileConfiguration, HashMap<String, String>> FEATURE_STRINGS = new HashMap<>();
 
-    default void registerFilterCategory(@NotNull FilterCategory category) {
+    default void registerFilterCategory(FilterCategory category) {
         FILTER_CATEGORIES.put(category.getIdentifier(), category);
     }
-    default FilterCategory getFilterCategory(@NotNull String categoryIdentifier) {
+    default FilterCategory getFilterCategory(String categoryIdentifier) {
         return FILTER_CATEGORIES.getOrDefault(categoryIdentifier, null);
     }
 
@@ -84,7 +83,7 @@ public interface UVersionable extends Versionable {
         return is != null ? is.clone() : def;
     }
 
-    default File[] getFilesInFolder(@NotNull String folder) {
+    default File[] getFilesInFolder(String folder) {
         final File f = new File(folder);
         return f.exists() ? f.listFiles() : new File[]{};
     }
@@ -209,7 +208,7 @@ public interface UVersionable extends Versionable {
         return item;
     }
 
-    default Enchantment getEnchantment(@NotNull String string) {
+    default Enchantment getEnchantment(String string) {
         if(string != null) {
             string = string.toLowerCase().replace("_", "");
             for(Enchantment enchant : Enchantment.values()) {
